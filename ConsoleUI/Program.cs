@@ -1,5 +1,8 @@
-﻿using Business.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
+using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
+using Entities.Concrete;
 using System;
 
 namespace ConsoleUI
@@ -8,12 +11,22 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarManager carManager = new CarManager(new InMemoryCarDal());
-
-            foreach (var car in carManager.GetAll())
+            ICarService carService = new CarManager(new EfCarDal());
+            carService.Add(new Car
             {
-                Console.WriteLine(car.ModelYear + " " + " Üretim Tarihli Ve Günlük Fiyatı " + " " + car.DailyPrice + " " + " TL " + " " + " Olan Arabamız :" + " " + car.Description );
+                
+                BrandId = 1,
+                ColorId = 1,
+                DailyPrice = 500,
+                Description = "Araba",          
+                ModelYear = "2019"
+            });
+
+            foreach (var car in carService.GetCarsByBrandId(1))
+            {
+                Console.WriteLine("Ürünün Adı" + " " + car.Description + " " + " Ürünün günlük fiyatı:" + " " + car.DailyPrice  + " " + " Ürünün üretim yılı:" + " " + car.ModelYear);
             }
+
         }
-    }
-}
+    } }
+
