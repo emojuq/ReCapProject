@@ -27,6 +27,7 @@ namespace Core.EntityFramework
         {
             using (TContext context = new TContext())
             {
+
                 var deletedEntity = context.Entry(car);
                 deletedEntity.State = EntityState.Deleted;
                 context.SaveChanges();
