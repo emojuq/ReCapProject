@@ -21,9 +21,9 @@ namespace ConsoleUI
             //BrandAddTest();
             //UserAddTest();
             //RentList();
-            //AddRentTest();
-            //RentUpdateTest(); 
-            //CarDetailsTest(); 
+            //AddRentTest(); //bir şey dönmedi
+            //RentUpdateTest();
+            //CarDetailsTest();
             //UpdateTest();
             //BrandDeleteTest();
             //RentDetailsTest();
@@ -31,15 +31,16 @@ namespace ConsoleUI
             //ColorGetByIdTest();
 
 
-            
+
 
         }
 
         private static void AddRentTest()
         {
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
-            var result = rentalManager.Add(new Rental {CarId=3 ,CustomerId=1,  RentDate = new DateTime(2021, 2, 20) });
+            var result= rentalManager.Add(new Rental {Id=6 , CarId=5 ,CustomerId=5,  RentDate = new DateTime(2021,02,10) });
             Console.WriteLine(result.Message);
+            
         }
 
         private static void RentDetailsTest()
@@ -51,7 +52,7 @@ namespace ConsoleUI
                 foreach (var rent in result.Data)
                 {
                     Console.WriteLine("CustomerName:{0} - CarName:{1} - CompanyName:{2} - RentDate:{3} - ReturnDate:{4}",
-                        rent.CustomerName, rent.CarName, rent.CustomerName, rent.RentDate, rent.ReturnDate);
+                        rent.CustomerName, rent.CarName," " + rent.CustomerName," " + rent.RentDate," " + rent.ReturnDate);
                 }
                 Console.WriteLine(result.Message);
             }
@@ -85,7 +86,7 @@ namespace ConsoleUI
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
             var result = rentalManager.Update(new Rental
             {
-                Id = 1014,
+                Id = 1,
                 CarId = 4,
                 CustomerId = 1,
                 RentDate = new DateTime(2021, 02, 14),
@@ -98,7 +99,7 @@ namespace ConsoleUI
         private static void UserAddTest()
         {
             UserManager userManager = new UserManager(new EfUserDal());
-            var result = userManager.Add(new User { FirstName = "Berkay", LastName = "Özdemir", EMail = "xxxxxxxx", Password = "********" });
+            var result = userManager.Add(new User {Id=6 ,FirstName = "Yunus", LastName = "Can", EMail = "xxx", Password = "*****" });
             Console.WriteLine(result.Message);
         }
 
@@ -119,7 +120,7 @@ namespace ConsoleUI
         private static void BrandAddTest()
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
-            brandManager.Add(new Brand { Name = "Ferrari2" });
+            brandManager.Add(new Brand { Name = "Citroen",BrandId=6 });
         }
 
         private static void ColorGetByIdTest()
