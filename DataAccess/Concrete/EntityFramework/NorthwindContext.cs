@@ -17,7 +17,7 @@ namespace DataAccess.Concrete.EntityFramework
         }
 
        
-        //not webApi'de CarImageController oluştur.
+        
 
 
 

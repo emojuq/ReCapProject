@@ -1,7 +1,10 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Transaction;
 using Core.Utilities.BusinessRules;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -22,7 +25,11 @@ namespace Business.Concrete
             _carImageDal = carImageDal;
         }
 
+        
+        [SecuredOperation("admin")]
         [ValidationAspect(typeof(CarImageValidator))]
+        [TransactionScopeAspect]
+        [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Add(CarImage carImage,string ex)
         {
             IResult result = BusinessRules.Run(CheckIfCountOfCarImagesCorrect(carImage.CarId));
@@ -39,6 +46,8 @@ namespace Business.Concrete
         }
 
 
+        [SecuredOperation("admin")]
+        [CacheRemoveAspect("ICarImageService.Get")]
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Delete(CarImage carImage)
         {
@@ -53,21 +62,29 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarImageDeleted);
         }
 
+        [SecuredOperation("user,admin")]
+        [CacheAspect]
         public IDataResult<CarImage> Get(int id)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(c=>c.Id==id));
         }
 
+        [SecuredOperation("user,admin")]
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetAll()
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
 
+        [SecuredOperation("user,admin")]
+        [CacheAspect]
         public IDataResult<CarImage> GetById(int carImageId)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(c=>c.Id==carImageId));
         }
 
+        [SecuredOperation("user,admin")]
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetPhotosByCarId(int carId)
         {
             IDataResult<List<CarImage>> result = (IDataResult<List<CarImage>>)BusinessRules.Run(CheckIfPhotosExistsForCar(carId));
@@ -78,7 +95,10 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(p => p.CarId == carId));
         }
 
+        [SecuredOperation("admin")]
         [ValidationAspect(typeof(CarImageValidator))]
+        [TransactionScopeAspect]
+        [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Update(CarImage carImage)
         {
             var carImageUpdate = UpdatedFile(carImage).Data;
