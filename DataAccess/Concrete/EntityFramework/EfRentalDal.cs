@@ -18,7 +18,7 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from car in context.Cars
                              join rental in context.Rentals
-                             on car.CarId equals rental.CarId
+                             on car.CarId equals rental.Id
                              join customer in context.Customers
                              on rental.CustomerId equals customer.UserId
                              join user in context.Users
@@ -29,7 +29,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  CustomerName = user.FirstName + " " + user.LastName,
                                  CompanyName = customer.CompanyName,
                                  RentDate = rental.RentDate,
-                                 ReturnDate = (DateTime)rental.ReturnDate
+                                 ReturnDate = rental.ReturnDate
                              };
                 return result.ToList();
 
