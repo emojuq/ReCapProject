@@ -41,16 +41,15 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarDeleted);
         }
 
-        [CacheAspect]
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<Car>> GetAll()
+       
+        public IDataResult<List<CarDetailDto>> GetAll()
         {
             if (DateTime.Now.Hour==00)
             {
-                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.MaintenanceTime);
             }
 
-            return new DataResult<List<Car>>(_carDal.GetAll(),true,Messages.CarListed);
+            return new DataResult<List<CarDetailDto>>(_carDal.GetCarDetails(),true,Messages.CarListed);
             
         }
 

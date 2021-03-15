@@ -44,11 +44,10 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalDeleted);
         }
 
-        [SecuredOperation("user,admin")]
-        [CacheAspect]
-        public IDataResult<List<Rental>> GetAll()
+       
+        public IDataResult<List<RentalDetailDto>> GetAll()
         {
-            return new DataResult<List<Rental>>(_rentalDal.GetAll(),true,Messages.RentalListed);
+            return new DataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(),true,Messages.RentalListed);
         }
 
         [SecuredOperation("user,admin")]
@@ -58,8 +57,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(_rentalDal.Get(r=>r.Id==id));
         }
 
-        [SecuredOperation("user,admin")]
-        [CacheAspect]
+        
         public IDataResult<List<RentalDetailDto>> GetRentalDetailsDto()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());

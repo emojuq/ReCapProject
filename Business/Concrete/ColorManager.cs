@@ -42,8 +42,7 @@ namespace Business.Concrete
         }
 
 
-        [SecuredOperation("admin,user")]
-        [CacheAspect]
+        
         public IDataResult<List<Color>> GetAll()
         {
             return new DataResult<List<Color>>(_colorDal.GetAll(),true,Messages.ColorListed);

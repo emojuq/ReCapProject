@@ -41,8 +41,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CustomerDeleted);
         }
 
-        [SecuredOperation("user,admin")]
-        [CacheAspect]
+        
         public IDataResult<List<Customer>> GetAll()
         {
             return new DataResult<List<Customer>>(_customerDal.GetAll(),true,Messages.CustomerListed);
