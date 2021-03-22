@@ -11,28 +11,33 @@ using System.Text;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-  public class EfCarDal :EfEntityRepositoryBase<Car,NorthwindContext>,ICarDal
+    public class EfCarDal : EfEntityRepositoryBase<Car, NorthwindContext>, ICarDal
     {
-        public List<CarDetailDto> GetCarDetails(Expression<Func<Car, bool>> filter = null)
+        public List<CarDetailDto> GetCarDetails(Expression<Func<CarDetailDto, bool>> filter = null)
         {
-            using (NorthwindContext context= new NorthwindContext())
+            using (NorthwindContext context = new NorthwindContext())
             {
-                var result = from c in context.Cars
-                             join b in context.Colors
-
-                             on c.ColorId equals b.Id
-                             join br in context.Brands
-                             on c.BrandId equals br.BrandId
-                             select new CarDetailDto
+                var result = from car in context.Cars
+                             join color in context.Colors on car.ColorId equals color.Id
+                             join brand in context.Brands on car.BrandId equals brand.BrandId
+                             join carImage in context.CarImages on car.CarId equals carImage.CarId
+                             select new CarDetailDto()
                              {
-                                 CarId = c.CarId,
-                                 BrandName = br.Name,
-                                 ColorName = b.Name,
-                                 CarName = c.Description,
-                                 DailyPrice = c.DailyPrice,
-                             };
+                                 CarId = car.CarId,
+                                 ImagePath = carImage.ImagePath,
+                                 Description = car.Description,
+                                 BrandId = brand.BrandId,
+                                 BrandName = brand.Name,
+                                 CarImageDate = carImage.Date,
+                                 ColorId = color.Id,
+                                 ColorName = color.Name,
+                                 DailyPrice = car.DailyPrice,
+                                 CarName = car.Description,
+                                 ModelYear=car.ModelYear
 
-                return result.ToList();
+                             };
+                return filter == null ? result.ToList() : result.Where(filter).ToList();
+
             }
         }
     }
