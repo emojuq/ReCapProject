@@ -41,6 +41,9 @@ namespace Business.Dependency_Resolvers.Autofac
             builder.RegisterType<UserManager>().As<IUserService>();
             builder.RegisterType<EfUserDal>().As<IUserDal>();
 
+            builder.RegisterType<PaymentManager>().As<IPaymentService>();
+            builder.RegisterType<EfPaymentDal>().As<IPaymentDal>();
+
 
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

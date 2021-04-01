@@ -4,6 +4,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac;
 using Core.Aspects.Autofac.Caching;
+using Core.Utilities.BusinessRules;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -25,7 +26,11 @@ namespace Business.Concrete
        
         public IResult Add(Rental rental)
         {
-          
+            var result = BusinessRules.Run(CheckCarAvailable(rental.CarId));
+            if (result!=null)
+            {
+                return result;
+            }
             _rentalDal.Add(rental);
 
             return new SuccessResult(Messages.RentalAdded);        
@@ -52,7 +57,11 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(_rentalDal.Get(r=>r.Id==id));
         }
 
-        
+        public IDataResult<RentalDetailDto> GetRentalDetailsById(int id)
+        {
+            return new SuccessDataResult<RentalDetailDto>(_rentalDal.GetRentalDetails(id));
+        }
+
         public IDataResult<List<RentalDetailDto>> GetRentalDetailsDto()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
@@ -67,5 +76,16 @@ namespace Business.Concrete
         }
 
        
+
+        private IResult CheckCarAvailable(int carId)
+        {
+            if(_rentalDal.Get(r=>r.CarId==carId && r.ReturnDate==null) != null)
+            {
+                return new ErrorResult();
+            }
+            return new SuccessResult();
+        }
     }
+
+   
 }

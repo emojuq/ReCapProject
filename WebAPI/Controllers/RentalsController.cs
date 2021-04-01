@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Core.Aspects.Transaction;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +16,11 @@ namespace WebAPI.Controllers
     public class RentalsController : ControllerBase
     {
         IRentalService _rentalService;
-        public RentalsController(IRentalService rentalService)
+        IPaymentService _paymentService;
+        public RentalsController(IRentalService rentalService , IPaymentService paymentService)
         {
             _rentalService = rentalService;
+            _paymentService = paymentService;
         }
 
 
@@ -79,6 +83,15 @@ namespace WebAPI.Controllers
                 return Ok(result);
             }
             return BadRequest(result.Message);
+        }
+
+
+
+        [HttpGet("getrentaldetailsbyid")]
+        public IActionResult GetRentalDetailsById(int carId)
+        {
+            var result = _rentalService.GetRentalDetailsById(carId);
+            return Ok(result);
         }
     }
 }

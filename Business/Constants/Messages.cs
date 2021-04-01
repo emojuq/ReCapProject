@@ -53,6 +53,16 @@ namespace Business.Constants
         public static string UserRegistered = "Kullanıcı başarıyla kaydedildi";
         public static string AccessTokenCreated = "Access token başarıyla oluşturuldu";
 
+        public static string InsufficientBalance = "Yetersiz bakiye";
 
+        public static string PaymentCompleted = "Ödeme yapıldı";
+
+        public static string Added = "Eklendi!";
+        public static string Deleted = "Silindi";
+        public static string Updated = "Güncellendi!";
+        public static string Listed = "Listelendi";
     }
+
+
 }
+
