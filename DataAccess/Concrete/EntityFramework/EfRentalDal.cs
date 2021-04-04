@@ -47,13 +47,14 @@ namespace DataAccess.Concrete.EntityFramework
                         BrandName=car.Description
                         
                         
+                        
                     };
 
                 return result.ToList();
             }
         }
 
-       
+      
     }
 
 }

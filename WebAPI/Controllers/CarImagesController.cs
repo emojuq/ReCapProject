@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add([FromForm(Name = ("Image"))] IFormFile file, [FromForm] CarImage carImage)
+        public IActionResult Add([FromForm(Name = ("Image"))] IFormFile file, [FromForm] CarImage carImage)//resımı Image adı ıle vermen gerek yoksa almaz bu name strınglerı vermesendaya ıyı olurdu
         {
             var result = _carImageService.Add(file, carImage);
             if (result.Success)
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("delete")]
+        [HttpPost("delete")]//bu da
         public IActionResult Delete([FromForm(Name = ("Id"))] int Id)
         {
 
@@ -47,7 +47,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPut("update")]
+        [HttpPost("update")]//post yap bunu muhtemelen calismaz 
         public IActionResult Update([FromForm(Name = ("Image"))] IFormFile file, [FromForm(Name = ("Id"))] int Id)
         {
             var carImage = _carImageService.Get(Id).Data;

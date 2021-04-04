@@ -11,6 +11,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -57,9 +58,17 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(_rentalDal.Get(r=>r.Id==id));
         }
 
-        public IDataResult<RentalDetailDto> GetRentalDetailsById(int id)
+        public IResult GetRentalDetailsById(int id)
         {
-            return new SuccessDataResult<RentalDetailDto>(_rentalDal.GetRentalDetails(id));
+            var result = _rentalDal.GetAll(r => r.CarId == id && r.ReturnDate == null).Any();
+
+            if (result)
+            {
+                return new ErrorResult("Hata");
+            }
+
+            return new SuccessResult();
+
         }
 
         public IDataResult<List<RentalDetailDto>> GetRentalDetailsDto()
@@ -68,7 +77,7 @@ namespace Business.Concrete
         }
 
 
-        
+
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);

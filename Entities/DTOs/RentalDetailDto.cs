@@ -6,7 +6,7 @@ namespace Entities.DTOs
 {
    public class RentalDetailDto
     {
-        public int Id { get; set; }
+        public int Id { get; set; }//burası hatalı pk olarak vermıssın sanırım ama tabloda yok
         public int CarId { get; set; }
         public string CarName { get; set; }
         public string UserName { get; set; }
