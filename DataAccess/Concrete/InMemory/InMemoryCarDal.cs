@@ -80,7 +80,22 @@ namespace DataAccess.Concrete.InMemory
             throw new NotImplementedException();
         }
 
+        public List<CarDetailDto> GetCarDetailsByBrandId(int brandId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CarDetailDto> GetCarDetailsByColorId(int colorId)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<CarDetailDto> GetCarDetailsById(int carId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CarDetailDto> GetCarsByBrandAndColor(int brandId, int colorId)
         {
             throw new NotImplementedException();
         }
@@ -98,6 +113,11 @@ namespace DataAccess.Concrete.InMemory
              carToUpdate = _cars.SingleOrDefault(c => c.DailyPrice == car.DailyPrice);
              carToUpdate = _cars.SingleOrDefault(c => c.Description == car.Description);
 
+        }
+
+        List<CarDetailDto> ICarDal.GetCarDetail(int carId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

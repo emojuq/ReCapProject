@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
 
         
 
-        [HttpGet("paymentadd")]
+        [HttpGet("add")]
         public IActionResult Add(Payment card)
         {
             

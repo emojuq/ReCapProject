@@ -13,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, NorthwindContext>, ICarDal
     {
-        public List<CarDetailDto> GetCarDetailsById(int carId)
+        public List<CarDetailDto> GetCarDetail(int carId)
         {
             using (NorthwindContext context = new NorthwindContext())
             {
@@ -38,9 +38,6 @@ namespace DataAccess.Concrete.EntityFramework
                  return result.ToList();
             }
         }
-
-
-
 
 
 
@@ -75,8 +72,83 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
- 
 
-       
+        public List<CarDetailDto> GetCarDetailsByBrandId(int brandId)
+        {
+            using (NorthwindContext context = new NorthwindContext())
+            {
+                var result = (from ca in context.Cars
+                              join co in context.Colors on ca.ColorId equals co.Id
+                              join br in context.Brands on ca.BrandId equals br.BrandId
+                              where ca.BrandId == brandId
+                              select new CarDetailDto
+                              {
+                                  Id = ca.CarId,
+                                  CarName = ca.Description,
+                                  BrandId = br.BrandId,
+                                  DailyPrice = ca.DailyPrice,
+                                  BrandName = br.Name,
+                                  ColorId = co.Id,
+                                  ColorName = co.Name,
+                                  ModelYear = ca.ModelYear
+                              }).ToList();
+                return result.ToList();
+            }
+        }
+
+
+        public List<CarDetailDto> GetCarDetailsByColorId(int colorId)
+        {
+            using (NorthwindContext context = new NorthwindContext())
+            {
+                var result = (from ca in context.Cars
+                              join co in context.Colors on ca.ColorId equals co.Id
+                              join br in context.Brands on ca.BrandId equals br.BrandId
+                              where ca.ColorId == colorId
+                              select new CarDetailDto
+                              {
+                                  Id = ca.CarId,
+                                  CarName = ca.Description,
+                                  BrandId = br.BrandId,
+                                  DailyPrice = ca.DailyPrice,
+                                  BrandName = br.Name,
+                                  ColorId = co.Id,
+                                  ColorName = co.Name,
+                                  ModelYear = ca.ModelYear
+                              }).ToList();
+                return result.ToList();
+            }
+        }
+
+
+
+        public List<CarDetailDto> GetCarsByBrandAndColor(int brandId, int colorId)
+        {
+            using (NorthwindContext context = new NorthwindContext())
+            {
+                var result = (from ca in context.Cars
+                              join co in context.Colors on ca.ColorId equals co.Id
+                              join br in context.Brands on ca.BrandId equals br.BrandId
+                              where ca.ColorId == colorId && br.BrandId == brandId
+                              select new CarDetailDto
+                              {
+                                  Id = ca.CarId,
+                                  CarName = ca.Description,
+                                  BrandId = br.BrandId,
+                                  DailyPrice = ca.DailyPrice,
+                                  BrandName = br.Name,
+                                  ColorId = co.Id,
+                                  ColorName = co.Name,
+                                  ModelYear = ca.ModelYear
+                              }).ToList();
+                return result.ToList();
+            }
+        }
+
+
+
+
+
+
     }
 }
